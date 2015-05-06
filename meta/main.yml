@@ -1,0 +1,50 @@
+---
+#dependencies: []
+dependencies:
+  - { role: virtualbox }
+#  - { role: alban.andrieu.common }
+#  - { role: alban.andrieu.hostname }
+#  - { role: geerlingguy.ntp }
+#  - { role: geerlingguy.phpmyadmin }
+#  - { role: alban.andrieu.pagespeed }
+
+#  - { role: geerlingguy.apache }
+#  - { role: geerlingguy.mysql }
+#  - { role: geerlingguy.php-mysql }
+#  - { role: geerlingguy.php }
+
+galaxy_info:
+  author: Alban Andrieu
+  description: A role for installing phpvirtualbox
+  company: Nabla
+  license: GPLv3
+  min_ansible_version: 1.6.3
+  platforms:
+  - name: EL
+    versions:
+    - 6
+  - name: Debian
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+    - development
+    - web
+
+ansigenome_info:
+  galaxy_id: '0000'
+  galaxy_user: 'alban.andrieu'
+  galaxy_name: 'phpvirtualbox'
+
+  travis: False
+
+  synopsis: |
+    Describe your role in a few paragraphs....
+
+  usage: |
+    Describe how to use in more detail...
+
+  #custom: |
+  #  Any custom output you want after the usage section..

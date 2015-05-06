@@ -1,0 +1,28 @@
+<VirtualHost *:{{phpvirtualbox_apache_listen_port}}>
+	ServerAdmin {{phpvirtualbox_apache_admin_email}}
+	ServerName {{phpvirtualbox_apache_hostname}}
+	ServerAlias {{phpvirtualbox_apache_alias}}
+
+	DocumentRoot "{{phpvirtualbox_base_dir}}"
+
+	<Directory "{{phpvirtualbox_base_dir}}">
+		Options FollowSymLinks MultiViews Includes ExecCGI
+		AllowOverride none
+		Order allow,deny
+		allow from all
+		Require all granted
+		RewriteEngine On
+		RewriteBase /
+		RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+		RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+		RewriteRule ^index\.html$ - [L]
+		RewriteCond %{REQUEST_FILENAME} !-f
+		RewriteCond %{REQUEST_FILENAME} !-d
+		RewriteRule . /index.html [L]
+	</Directory>
+
+	ErrorLog {{ apache_log_dir }}/{{phpvirtualbox_apache_hostname}}-error.log
+	LogLevel warn
+	CustomLog {{ apache_log_dir }}/{{phpvirtualbox_apache_hostname}}-access.log combined
+
+</VirtualHost>

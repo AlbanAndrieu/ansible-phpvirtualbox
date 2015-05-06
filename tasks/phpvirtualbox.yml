@@ -1,0 +1,125 @@
+---
+
+- name: PhpVirtualbox | Check user exists
+  user: name={{phpvirtualbox_owner}} state=present
+
+- name: PhpVirtualbox | Check user home directory
+  stat: path={{phpvirtualbox_owner_home}}
+  register: home_present
+
+#TODO use role instead
+#- name: PhpVirtualbox | Apache | Install http (apache) and php etc)
+#  yum: name={{ item }} state=present
+#  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+#  with_items:
+#   - httpd
+#   - php
+#   - php5-common
+#   - php-soap
+#   - php5-gd
+#  tags: apache
+
+#TODO use role instead
+- name: PhpVirtualbox | Apache | Install http (apache) and php etc)
+  apt: pkg={{ item }} state=present
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  with_items:
+   - apache2
+   - php5
+   - php5-common
+   - php-soap
+   - php5-gd
+  tags: apache
+
+- name: PhpVirtualbox | Create temporary directory
+  shell: mktemp -d
+  register: tempdir
+  sudo: true
+  tags: phpvirtualbox_setup
+
+- name: PhpVirtualbox | Install unzip
+  apt:
+    pkg=unzip
+    state="present"
+  tags: phpvirtualbox_setup
+
+- name: PhpVirtualbox | Create or restore site database
+  include: mysql.yml
+  when: phpvirtualbox_mysql_enable
+
+- name: PhpVirtualbox | Download {{phpvirtualbox_version}} to {{ phpvirtualbox_dir_tmp }}/
+  get_url:
+    url="{{ phpvirtualbox_url }}"
+    dest="{{ phpvirtualbox_dir_tmp }}/"
+  register: phpvirtualbox_download
+
+- name: PhpVirtualbox | Create base directory
+  file:
+    dest="{{phpvirtualbox_base_dir}}"
+    state=directory
+    owner="{{phpvirtualbox_owner}}"
+    group="{{phpvirtualbox_group}}"
+  sudo : yes
+  when: phpvirtualbox_download.changed
+  tags: phpvirtualbox_setup
+
+#- name: PhpVirtualbox | Ensure that installation directory exists
+#  file: path={{phpvirtualbox_base_dir|dirname}} state=directory
+
+#- name: PhpVirtualbox |Extract archive phpvirtualbox
+#  unarchive: src=/tmp/wordpress-{{phpvirtualbox_version}}.tar.gz dest=/tmp copy=no
+
+- name: PhpVirtualbox | Extract archive phpvirtualbox
+  command: chdir={{ phpvirtualbox_dir_tmp }} /usr/bin/unzip -o -q {{ phpvirtualbox_dir_tmp }}/{{ phpvirtualbox_archive }}
+  when: phpvirtualbox_download.changed
+  tags: phpvirtualbox_setup
+
+#- name: PhpVirtualbox | Create home directory
+#  file:
+#    dest="{{ phpvirtualbox_home_dir }}"
+#    state=directory
+#    owner="{{phpvirtualbox_owner}}"
+#    group="{{phpvirtualbox_group}}"
+#  sudo : yes
+#  tags: phpvirtualbox_setup
+
+- name: PhpVirtualbox | Move extracted directory to {{phpvirtualbox_base_dir}}
+  command: /bin/mv {{ phpvirtualbox_dir_tmp }}/{{ phpvirtualbox_name }} {{phpvirtualbox_base_dir}} creates={{phpvirtualbox_base_dir}}
+  tags: phpvirtualbox_setup
+
+- name: PhpVirtualbox | Remove {{ phpvirtualbox_dir_tmp }}/{{ phpvirtualbox_archive }}
+  file: path={{ phpvirtualbox_dir_tmp }}/{{ phpvirtualbox_archive }} state=absent
+  tags: phpvirtualbox_setup
+
+- name: PhpVirtualbox | Copy config.php.j2 file
+  template: src=config.php.j2 dest={{phpvirtualbox_configuration}}/config.php
+
+- name: PhpVirtualbox | Change ownership of installation directory
+  file: path={{phpvirtualbox_base_dir}} owner=www-data group=www-data mode=775 state=directory recurse=yes
+
+#- name: PhpVirtualbox | Change ownership of wp-content directory
+#  file: path={{phpvirtualbox_base_dir}}/wp-content/ owner=www-data group=www-data mode=755 state=directory recurse=yes
+
+- name: PhpVirtualbox | Cleanup temporary directory
+  file: name={{ tempdir.stdout }} state=absent
+  tags: phpvirtualbox_setup
+  tags: apache
+
+- name: PhpVirtualbox | Apache | Copy virtual host configuration file
+  template: src=apache-vhost.conf.j2 dest=/etc/apache2/sites-available/{{phpvirtualbox_apache_hostname}}.conf owner=root group=root mode=0644
+  tags: apache
+
+- name: PhpVirtualbox | Apache | Enable the default site
+  action: command a2ensite {{phpvirtualbox_apache_hostname}}
+#  ignore_errors: yes
+  tags: apache
+
+- name: PhpVirtualbox | Apache | http (apache) service state
+  service: name=httpd state=started enabled=yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  tags: apache
+
+- name: PhpVirtualbox | Apache | http (apache) service state
+  service: name=apache2 state=started enabled=yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  tags: apache

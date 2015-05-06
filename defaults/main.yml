@@ -1,0 +1,49 @@
+---
+phpvirtualbox_enabled: yes                       # Enable module
+
+#user: 'albandri' #please override me
+user: "{{ lookup('env','USER') }}"
+phpvirtualbox_owner: "{{ user }}"
+phpvirtualbox_owner_password: "microsoft"
+phpvirtualbox_group: "{{ phpvirtualbox_owner }}"
+#home: '~' #please override me
+home: "{{ lookup('env','HOME') }}"
+phpvirtualbox_owner_home: "{{ home }}"
+phpvirtualbox_base_dir: '/var/www/phpvirtualbox'
+#phpvirtualbox_home_dir: "{{ home }}/.phpvirtualbox"
+phpvirtualbox_configuration: "{{ phpvirtualbox_base_dir }}"
+
+#phpvirtualbox_remote_hosts:
+#  # Additional properties: 'serverip, servername, serverfile'.
+#  - {serverip: "82.231.208.223", serverhostname: "home.nabla.mobi", servername: "albandri", serverjstatdport: "2020", serverposition: "4"}
+
+phpvirtualbox_dir_tmp: "/tmp" # or override with "{{ tempdir.stdout }} in order to have be sure to download the file"
+
+phpvirtualbox_version: "4.3-1"
+phpvirtualbox_name: "phpvirtualbox-{{ phpvirtualbox_version }}"
+phpvirtualbox_archive: "{{ phpvirtualbox_name }}.zip"
+phpvirtualbox_url: "http://sourceforge.net/projects/phpvirtualbox/files/{{ phpvirtualbox_archive }}"
+
+phpvirtualbox_location_port: 'http://127.0.0.1:18083/'
+
+phpvirtualbox_mysql_enable: false
+phpvirtualbox_mysql_db_create: true
+phpvirtualbox_mysql_site_restore_saved_db: false
+phpvirtualbox_backup_local_path: "{{ playbook_dir }}/_private/backup"
+phpvirtualbox_database_backup: "{{ phpvirtualbox_backup_local_path }}/{{ phpvirtualbox_site_name }}.sql"
+phpvirtualbox_site_name: "{{ phpvirtualbox_apache_hostname | default('example') }}"
+phpvirtualbox_db_name: 'phpvirtualbox'
+phpvirtualbox_db_user: 'root'
+phpvirtualbox_db_password: 'microsoft'
+phpvirtualbox_db_host: 'localhost'
+#phpvirtualbox_db_charset: 'utf8'
+#phpvirtualbox_db_collate: ''
+#phpvirtualbox_table_prefix: 'phpvirtualbox_'
+
+phpvirtualbox_apache_hostname: 'example.com'
+phpvirtualbox_apache_alias: 'www.example.com cdn.example.com'
+phpvirtualbox_apache_admin_email: 'admin@example.com'
+phpvirtualbox_apache_listen_port: '{{ apache_listen_port }}'
+
+apache_listen_port: 80
+apache_log_dir: "/var/log/apache2"
