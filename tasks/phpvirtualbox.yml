@@ -105,6 +105,15 @@
   tags: phpvirtualbox_setup
   tags: apache
 
+- name: PhpVirtualbox | VirtualboxWeb | Copy virtualbox file
+  template: src=virtualbox.default.j2 dest={{phpvirtualbox_virtualbox_default_configuration}}/virtualbox
+  tags: vboxweb
+
+#sudo /etc/init.d/vboxweb-service start
+- name: PhpVirtualbox | VirtualboxWeb | vboxweb service state
+  service: name=vboxweb-service state=started enabled=yes
+  tags: vboxweb
+
 - name: PhpVirtualbox | Apache | Copy virtual host configuration file
   template: src=apache-vhost.conf.j2 dest=/etc/apache2/sites-available/{{phpvirtualbox_apache_hostname}}.conf owner=root group=root mode=0644
   tags: apache

@@ -12,6 +12,7 @@ phpvirtualbox_owner_home: "{{ home }}"
 phpvirtualbox_base_dir: '/var/www/phpvirtualbox'
 #phpvirtualbox_home_dir: "{{ home }}/.phpvirtualbox"
 phpvirtualbox_configuration: "{{ phpvirtualbox_base_dir }}"
+phpvirtualbox_virtualbox_default_configuration: "/etc/default"
 
 #phpvirtualbox_remote_hosts:
 #  # Additional properties: 'serverip, servername, serverfile'.

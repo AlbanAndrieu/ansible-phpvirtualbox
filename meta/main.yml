@@ -34,14 +34,17 @@ galaxy_info:
     - web
 
 ansigenome_info:
-  galaxy_id: '0000'
+  galaxy_id: '3630'
   galaxy_user: 'alban.andrieu'
   galaxy_name: 'phpvirtualbox'
 
   travis: False
 
   synopsis: |
-    Describe your role in a few paragraphs....
+    Ansible role that installs and configures PhpVirtualbox.
+    Features include:
+      - Installation of any PhpVirtualbox version to specified directory
+      - Configuration of config.php
 
   usage: |
     Describe how to use in more detail...
