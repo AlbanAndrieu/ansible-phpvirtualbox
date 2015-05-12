@@ -27,8 +27,8 @@ phpvirtualbox_url: "http://sourceforge.net/projects/phpvirtualbox/files/{{ phpvi
 
 phpvirtualbox_location_port: 'http://127.0.0.1:18083/'
 
-phpvirtualbox_apache_hostname: 'example.com'
-phpvirtualbox_apache_alias: 'www.example.com cdn.example.com'
+phpvirtualbox_apache_hostname: 'phpvirtualbox' #or example.com
+phpvirtualbox_apache_alias: 'localhost' #or www.example.com cdn.example.com
 phpvirtualbox_apache_admin_email: 'admin@example.com'
 phpvirtualbox_apache_listen_port: '{{ apache_listen_port }}'
 
