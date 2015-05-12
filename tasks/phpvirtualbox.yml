@@ -43,10 +43,6 @@
     state="present"
   tags: phpvirtualbox_setup
 
-- name: PhpVirtualbox | Create or restore site database
-  include: mysql.yml
-  when: phpvirtualbox_mysql_enable
-
 - name: PhpVirtualbox | Download {{phpvirtualbox_version}} to {{ phpvirtualbox_dir_tmp }}/
   get_url:
     url="{{ phpvirtualbox_url }}"

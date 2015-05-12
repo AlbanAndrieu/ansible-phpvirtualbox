@@ -27,20 +27,6 @@ phpvirtualbox_url: "http://sourceforge.net/projects/phpvirtualbox/files/{{ phpvi
 
 phpvirtualbox_location_port: 'http://127.0.0.1:18083/'
 
-phpvirtualbox_mysql_enable: false
-phpvirtualbox_mysql_db_create: true
-phpvirtualbox_mysql_site_restore_saved_db: false
-phpvirtualbox_backup_local_path: "{{ playbook_dir }}/_private/backup"
-phpvirtualbox_database_backup: "{{ phpvirtualbox_backup_local_path }}/{{ phpvirtualbox_site_name }}.sql"
-phpvirtualbox_site_name: "{{ phpvirtualbox_apache_hostname | default('example') }}"
-phpvirtualbox_db_name: 'phpvirtualbox'
-phpvirtualbox_db_user: 'root'
-phpvirtualbox_db_password: 'microsoft'
-phpvirtualbox_db_host: 'localhost'
-#phpvirtualbox_db_charset: 'utf8'
-#phpvirtualbox_db_collate: ''
-#phpvirtualbox_table_prefix: 'phpvirtualbox_'
-
 phpvirtualbox_apache_hostname: 'example.com'
 phpvirtualbox_apache_alias: 'www.example.com cdn.example.com'
 phpvirtualbox_apache_admin_email: 'admin@example.com'
