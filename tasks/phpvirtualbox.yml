@@ -116,7 +116,7 @@
 
 - name: PhpVirtualbox | Apache | Enable the default site
   action: command a2ensite {{phpvirtualbox_apache_hostname}}
-#  ignore_errors: yes
+  ignore_errors: yes
   tags: apache
 
 - name: PhpVirtualbox | Apache | http (apache) service state
