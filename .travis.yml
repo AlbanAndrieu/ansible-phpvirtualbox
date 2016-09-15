@@ -2,7 +2,7 @@
 language: python
 python: "2.7"
 env:
-  - ANSIBLE_VERSION=1.9.2
+  - ANSIBLE_VERSION=2.1.1
 cache: bundler
 #sudo: false
 sudo: required
@@ -15,7 +15,7 @@ install:
   - sudo pip install ansible==$ANSIBLE_VERSION
 
   # Add ansible.cfg to pick up roles path.
-  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
+  #- "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
   # Install dependencies.
   #- ansible-galaxy install geerlingguy.mysql
@@ -37,12 +37,16 @@ install:
   - git clone https://github.com/geerlingguy/ansible-role-mysql.git geerlingguy.mysql
   - git clone https://github.com/geerlingguy/ansible-role-php-mysql.git geerlingguy.php-mysql
   - git clone https://github.com/geerlingguy/ansible-role-php.git geerlingguy.php
+
 script:
+  - sudo ansible --version
+  - export ANSIBLE_ROLES_PATH="../"
+
   # Check the role/playbook's syntax.
-  - ansible-playbook -i hosts phpvirtualbox.yml --syntax-check
+  - sudo ansible-playbook -i hosts phpvirtualbox.yml --syntax-check
 
   # Run the role/playbook with ansible-playbook.
-  - ansible-playbook -i hosts phpvirtualbox.yml --connection=local --sudo -vvvv
+  - sudo ansible-playbook -i hosts phpvirtualbox.yml --connection=local --sudo -vvvv
 
   # Run the role/playbook again, checking to make sure it's idempotent.
   # - >
