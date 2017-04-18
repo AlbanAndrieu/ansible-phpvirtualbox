@@ -6,7 +6,6 @@
 [![Ansible Galaxy](https://img.shields.io/badge/galaxy-alban.andrieu.phpvirtualbox-660198.svg?style=flat)](https://galaxy.ansible.com/detail#/role/3630)
 [![Platforms](http://img.shields.io/badge/platforms-debian%20/%20el%20/%20ubuntu-lightgrey.svg?style=flat)](#)
 [![Gittip](http://img.shields.io/gittip/alban.andrieu.svg)](https://www.gittip.com/alban.andrieu/)
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=AlbanAndrieu&url=https://github.com/alban.andrieu/ansible-phpvirtualbox&title=Ansible Role: PhpVirtualbox&language=&tags=github&category=software)
 
 Ansible role that installs and configures PhpVirtualbox.
 Features include:
