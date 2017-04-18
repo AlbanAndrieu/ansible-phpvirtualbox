@@ -1,3 +1,35 @@
+---
+#dependencies: []
+dependencies:
+  - { role: kost.virtualbox, name: virtualbox, become: true }
+#  - { role: alban.andrieu.common }
+#  - { role: alban.andrieu.hostname }
+#  - { role: geerlingguy.ntp }
+#  - { role: alban.andrieu.pagespeed }
+  - { role: geerlingguy.apache }
+  - { role: geerlingguy.php }
+
+galaxy_info:
+  author: Alban Andrieu
+  description: A role for installing private-bower
+  company: Nabla
+  license: GPLv3
+  min_ansible_version: 2.1.1
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+    - lucid
+    - maverick
+    - natty
+    - oneiric
+    - precise
+    - quantal
+    - raring
+    - saucy
+    - trusty
+  categories:
+  - development
 
 ansigenome_info:
   galaxy_id: '3630'
@@ -5,6 +37,13 @@ ansigenome_info:
   galaxy_name: 'phpvirtualbox'
 
   travis: False
+
+  authors:
+    - name:  'Alban Andrieu'
+      url: 'fr.linkedin.com/in/nabla/'
+      email: 'alban.andrieu@free.fr'
+      twitter: 'AlbanAndrieu'
+      github: 'AlbanAndrieu'
 
   synopsis: |
     Ansible role that installs and configures PhpVirtualbox.

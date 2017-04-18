@@ -1,7 +1,7 @@
 ---
 #dependencies: []
 dependencies:
-  - { role: virtualbox }
+  - { role: kost.virtualbox, name: virtualbox, become: true }
 #  - { role: alban.andrieu.common }
 #  - { role: alban.andrieu.hostname }
 #  - { role: geerlingguy.ntp }
