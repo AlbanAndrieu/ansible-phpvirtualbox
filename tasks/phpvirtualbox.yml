@@ -34,7 +34,7 @@
 - name: PhpVirtualbox | Create temporary directory
   shell: mktemp -d
   register: tempdir
-  sudo: true
+  become: yes
   tags: phpvirtualbox_setup
 
 - name: PhpVirtualbox | Install unzip
@@ -55,7 +55,7 @@
     state=directory
     owner="{{phpvirtualbox_owner}}"
     group="{{phpvirtualbox_group}}"
-  sudo : yes
+  become : yes
   when: phpvirtualbox_download.changed
   tags: phpvirtualbox_setup
 
@@ -96,11 +96,6 @@
 #- name: PhpVirtualbox | Change ownership of wp-content directory
 #  file: path={{phpvirtualbox_base_dir}}/wp-content/ owner=www-data group=www-data mode=755 state=directory recurse=yes
 
-- name: PhpVirtualbox | Cleanup temporary directory
-  file: name={{ tempdir.stdout }} state=absent
-  tags: phpvirtualbox_setup
-  tags: apache
-
 - name: PhpVirtualbox | VirtualboxWeb | Copy virtualbox file
   template: src=virtualbox.default.j2 dest={{phpvirtualbox_virtualbox_default_configuration}}/virtualbox
   tags: vboxweb
@@ -128,3 +123,11 @@
   service: name=apache2 state=started enabled=yes
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
   tags: apache
+
+- name: PhpVirtualbox | Cleanup temporary directory
+  file: name={{ tempdir.stdout }} state=absent
+  tags: phpvirtualbox_setup
+  changed_when: false    
+  ignore_errors: "{{ ansible_check_mode }}"    
+  become: yes
+  
