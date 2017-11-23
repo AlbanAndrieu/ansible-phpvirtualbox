@@ -18,7 +18,8 @@ phpvirtualbox_virtualbox_default_configuration: "/etc/default"
 #  # Additional properties: 'serverip, servername, serverfile'.
 #  - {serverip: "82.231.208.223", serverhostname: "home.nabla.mobi", servername: "albandri", serverjstatdport: "2020", serverposition: "4"}
 
-phpvirtualbox_dir_tmp: "/tmp" # or override with "{{ tempdir.stdout }} in order to have be sure to download the file"
+#phpvirtualbox_dir_tmp: "/tmp" # or override with "{{ tempdir.stdout }} in order to have be sure to download the file"
+phpvirtualbox_dir_tmp: "{{ tempdir.stdout }}"
 
 phpvirtualbox_version: "4.3-1"
 phpvirtualbox_name: "phpvirtualbox-{{ phpvirtualbox_version }}"
